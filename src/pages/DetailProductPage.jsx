@@ -1,0 +1,117 @@
+import { useState, useEffect } from "react";
+import { useParams, Link } from "react-router";
+import Swal from "sweetalert2";
+import toast, { Toaster } from "react-hot-toast";
+import { apiFetch } from "../helpers.js";
+import { useNavigate } from "react-router";
+export default function AdminDetailProductPage() {
+  const navigate = useNavigate();
+  const productFields = {
+    name: "",
+    price: "",
+    stock: "",
+    description: "",
+    savedImage: "",
+  };
+  const [product, setProduct] = useState(productFields); // Old data product
+  const { id } = useParams();
+
+  async function handleDeleteProduct(e, id) {
+    e.preventDefault();
+    Swal.fire({
+      position: "top",
+      icon: "warning",
+      title: "Delete product",
+      text: "Are you sure you want to delete this product? This action cannot be undone.",
+      showCancelButton: true,
+      confirmButtonText: "Yes,delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        toast.loading("Deleting product...");
+        apiFetch("/products/" + id, {
+          method: "DELETE",
+        })
+          .then(async () => {
+            toast.dismiss();
+            await Swal.fire({
+              position: "top",
+              icon: "Product successfully deleted",
+              title:
+                "Product deleted successfully. Returning to Products page...",
+              timer: 4000,
+              timerProgressBar: true,
+              showCancelButton: false,
+              confirmButtonText: "Ok",
+            }).then((result) => {
+              if (result.isConfirmed) {
+                navigate("/products/lists");
+              }
+            });
+            navigate("/products/lists");
+          })
+          .catch(() => {
+            toast.dismiss();
+            toast.error("There's an error, please try again!", {
+              removeDelay: 4000,
+            });
+          });
+      }
+    });
+  }
+
+  useEffect(() => {
+    apiFetch("/products/" + id)
+      .then((data) => {
+        setProduct(data);
+      })
+      .catch((error) =>
+        toast.error(
+          "Something went wrong, please try again later. Error :" +
+            error.message,
+          { removeDelay: 4000 }
+        )
+      );
+  }, []);
+  return (
+    <div className="detail-product-page">
+      <Toaster />
+      <img src={product.image} alt={product.image} />
+      <div className="product-detail">
+        <h2>{product.name}</h2>
+        <div className="product-information">
+          <div>
+            <span>Stock</span>
+            <span></span>
+            <span>{product.stock}</span>
+          </div>
+          <div>
+            <span>Price</span>
+            <span></span>
+            <span>{product.price}</span>
+          </div>
+          <div>
+            <span>Featured</span>
+            <span></span>
+            <span>{product.featured ? "Yes" : "No"}</span>
+          </div>
+        </div>
+        <div>
+          <span>Description</span>
+          <p>{product.description}</p>
+        </div>
+        <div className="action">
+          <a
+            href="#"
+            onClick={(e) => handleDeleteProduct(e, id)}
+            className="btn delete"
+          >
+            Delete
+          </a>
+          <Link to={"/products/edit/" + id} className="btn edit">
+            Edit
+          </Link>
+        </div>
+      </div>
+    </div>
+  );
+}
