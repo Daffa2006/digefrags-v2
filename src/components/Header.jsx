@@ -42,7 +42,7 @@ export default function Navbar() {
           <div className="mobile-user-profile">
             <CircleUserRound className="CircleUserRound" />
             <div className="user-profile">
-              {me ? (
+              {loading ? (
                 <Link to="/profile">
                   <h4>{me.name}</h4>
                   <span>{me.role < 1 ? "(client)" : "(admin)"}</span>
@@ -59,7 +59,7 @@ export default function Navbar() {
         {/* Right side desktop */}
         <div className="header-right">
           <div className="user-profile">
-            {me ? (
+            {loading ? (
               <Link to="/profile">
                 <h4>{me.name}</h4>
                 <span>{me.role < 1 ? "(client)" : "(admin)"}</span>
