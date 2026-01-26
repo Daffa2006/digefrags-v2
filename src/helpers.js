@@ -6,7 +6,9 @@ export function formatRupiah(number) {
   }).format(number);
 }
 
-export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
+export const API_BASE_URL =
+  import.meta.env.VITE_API_BASE_URL ||
+  "https://api-digefrags-v2-production.up.railway.app/api";
 
 export async function apiFetch(path, options = {}) {
   const token = localStorage.getItem("token");
