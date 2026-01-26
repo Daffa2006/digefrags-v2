@@ -2,7 +2,6 @@ import { Trash2Icon, SquarePenIcon } from "lucide-react";
 import { Link } from "react-router";
 import { formatRupiah } from "../helpers.js";
 import AdminOnly from "../middlewares/AdminOnly.jsx";
-import { trackEvent } from "../analytics/analytics.js";
 export default function ProductCard(props) {
   const { name, image, price, stock, id, handleDelete } = props;
 
@@ -17,13 +16,7 @@ export default function ProductCard(props) {
           <span className="product-stock">{stock} tersisa</span>
         </div>
         <div className="product-action">
-          <Link
-            to={"/products/" + id}
-            onClick={() =>
-              trackEvent("select_item", { item_id: id, label: name })
-            }
-            className="btn primary"
-          >
+          <Link to={"/products/" + id} className="btn primary">
             Lihat detail
           </Link>
           <AdminOnly>
