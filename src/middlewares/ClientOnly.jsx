@@ -6,7 +6,7 @@ function getUserFromToken() {
   return payload; // { id, role }
 }
 
-export default function AdminOnly({ children }) {
+export default function ClientOnly({ children }) {
   const user = getUserFromToken();
 
   if (user?.role !== 0) return null;

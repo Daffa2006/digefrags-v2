@@ -5,8 +5,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { apiFetch } from "../helpers.js";
 import { useNavigate } from "react-router";
 import AdminOnly from "../middlewares/AdminOnly.jsx";
-import InputForm from "../components/InputForm.jsx";
 import { Minus, Phone, Plus } from "lucide-react";
+import ClientOnly from "../middlewares/ClientOnly.jsx";
 export default function AdminDetailProductPage() {
   const navigate = useNavigate();
   const productFields = {
@@ -105,49 +105,50 @@ export default function AdminDetailProductPage() {
           <span>Description</span>
           <p>{product.description}</p>
         </div>
-
-        <div className="product-purchase">
-          <div className="product-amount-action">
+        <ClientOnly>
+          <div className="product-purchase">
+            <div className="product-amount-action">
+              <button
+                type="button"
+                className="btn"
+                onClick={() => setAmount((prev) => Math.max(prev - 1, 1))}
+              >
+                <Minus />
+              </button>
+              <input
+                type="number"
+                max="9"
+                value={amount}
+                onChange={(e) => {
+                  // biarkan user mengetik, simpan apa adanya
+                  setAmount(e.target.value);
+                }}
+                onBlur={() => {
+                  // validasi saat focus hilang
+                  let val = Number(amount);
+                  if (isNaN(val) || val < 1) val = 1;
+                  if (val > product.stock) val = product.stock;
+                  setAmount(String(val));
+                }}
+              />
+              <button
+                type="button"
+                className="btn"
+                onClick={() =>
+                  setAmount((prev) => Math.min(prev + 1, product.stock))
+                }
+              >
+                <Plus />
+              </button>
+            </div>
             <button
-              type="button"
-              className="btn"
-              onClick={() => setAmount((prev) => Math.max(prev - 1, 1))}
+              onClick={() => alert("Demo pembelian")}
+              className="btn primary"
             >
-              <Minus />
-            </button>
-            <input
-              type="number"
-              max="9"
-              value={amount}
-              onChange={(e) => {
-                // biarkan user mengetik, simpan apa adanya
-                setAmount(e.target.value);
-              }}
-              onBlur={() => {
-                // validasi saat focus hilang
-                let val = Number(amount);
-                if (isNaN(val) || val < 1) val = 1;
-                if (val > product.stock) val = product.stock;
-                setAmount(String(val));
-              }}
-            />
-            <button
-              type="button"
-              className="btn"
-              onClick={() =>
-                setAmount((prev) => Math.min(prev + 1, product.stock))
-              }
-            >
-              <Plus />
+              Buy <Phone />
             </button>
           </div>
-          <button
-            onClick={() => alert("Demo pembelian")}
-            className="btn primary"
-          >
-            Buy <Phone />
-          </button>
-        </div>
+        </ClientOnly>
         <AdminOnly>
           <div className="action">
             <a
