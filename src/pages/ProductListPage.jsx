@@ -7,7 +7,7 @@ import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
 import debounce from "lodash.debounce";
 import AdminOnly from "../middlewares/AdminOnly.jsx";
-
+import { trackEvent } from "../analytics/analytics.js";
 export default function ManageProducts() {
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -59,7 +59,7 @@ export default function ManageProducts() {
         apiFetch(`/products?search=${value}`)
           .then((data) => {
             setProducts(data);
-            // minimum visible time
+            trackEvent("search", { search_term: value, results: data.length });
           })
           .finally(() => {
             setIsLoading(false);

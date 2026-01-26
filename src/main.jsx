@@ -14,10 +14,15 @@ import Register from "./pages/Register.jsx";
 import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
 import { UserProvider } from "./contexts/UserProvider.jsx";
+import Analytics from "./analytics/Analytics.jsx";
+import { initGA } from "./analytics/analytics.js";
+
+initGA(); // panggil google analytics sekali
 
 createRoot(document.getElementById("root")).render(
   <UserProvider>
     <BrowserRouter>
+      <Analytics />
       <Routes>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />

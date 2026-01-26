@@ -7,6 +7,8 @@ import { useNavigate } from "react-router";
 import AdminOnly from "../middlewares/AdminOnly.jsx";
 import { Minus, Phone, Plus } from "lucide-react";
 import ClientOnly from "../middlewares/ClientOnly.jsx";
+import { trackEvent } from "../analytics/analytics";
+
 export default function AdminDetailProductPage() {
   const navigate = useNavigate();
   const productFields = {
@@ -142,10 +144,18 @@ export default function AdminDetailProductPage() {
               </button>
             </div>
             <button
-              onClick={() => alert("Demo pembelian")}
+              onClick={() => {
+                trackEvent("buy_click", {
+                  label: product.name,
+                  item_id: product._id,
+                  value: product.price,
+                  quantity: Number(amount),
+                });
+                alert("Demo pembelian");
+              }}
               className="btn primary"
             >
-              Buy <Phone />
+              Buy
             </button>
           </div>
         </ClientOnly>
