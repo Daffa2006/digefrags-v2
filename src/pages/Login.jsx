@@ -10,7 +10,7 @@ export default function Login() {
   const navigate = useNavigate();
   const onSubmit = async (e) => {
     e.preventDefault();
-    toast.loading("Signing in...");
+    toast.loading("Signing you in...");
     try {
       const data = await apiFetch("/users/login", {
         method: "POST",

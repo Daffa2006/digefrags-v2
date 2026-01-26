@@ -27,7 +27,6 @@ export default function HomePage() {
           title: "Google Analytics Report",
           position: "top",
           customClass: {
-            title: "swal-text-small",
             htmlContainer: "swal-text-small",
             confirmButton: "swal-text-small",
           },

@@ -8,7 +8,7 @@ export default function Profile() {
   const navigate = useNavigate();
   const logout = () => {
     localStorage.removeItem("token");
-    toast.info("Logging out...");
+    toast.success("Successfully logged out");
     navigate("/login");
   };
   return (
