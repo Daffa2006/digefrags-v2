@@ -6,6 +6,7 @@ import ProductCard from "../components/ProductCard.jsx";
 import EmptyState from "../components/EmptyState.jsx";
 import { StarOff } from "lucide-react";
 import { formatRupiah } from "../helpers.js";
+import Swal from "sweetalert2";
 export default function HomePage() {
   const navigate = useNavigate();
   const [newestProducts, setNewestProducts] = useState([]);
@@ -21,6 +22,27 @@ export default function HomePage() {
           area: `area${index + 1}`, // area1, area2, area3, ...
         }));
         setFeaturedProducts(dataWithArea);
+
+        Swal.fire({
+          title: "Google Analytics Report",
+          position: "top",
+          customClass: {
+            title: "swal-text-small",
+            htmlContainer: "swal-text-small",
+            confirmButton: "swal-text-small",
+          },
+          html: `
+              <p>You can view the latest website analytics report here:</p>
+              <a
+                href="https://analytics.google.com/analytics/web/?hl=id#/a381828701p521431195/realtime/pages?params=_u..nav%3Dmaui"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                Open Google Analytics
+              </a>
+            `,
+          confirmButtonText: "Got it",
+        });
       })
       .catch((err) =>
         toast.error(
@@ -69,8 +91,8 @@ export default function HomePage() {
       <h2>Newest products</h2>
       {newestProducts.length < 1 ? (
         <EmptyState
-          title="No featured products yet"
-          description="No products are marked as featured yet."
+          title="No products yet"
+          description="This store hasn’t added any products yet. Please check back later."
         />
       ) : (
         <div className="products-grid">

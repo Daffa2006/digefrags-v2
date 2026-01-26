@@ -68,6 +68,10 @@ main {
   max-width: 1440px;
   padding: 100px 24px;
 }
+/* For sweet alert */
+.swal-text-small {
+  font-size: 14px !important;
+}
 /* General header styling */
 header {
   white-space: nowrap;

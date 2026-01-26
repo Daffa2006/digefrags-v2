@@ -30,7 +30,7 @@ export default function Login() {
   };
   return (
     <section className="auth-page">
-      <Toaster />
+        <Toaster/>
       <div className="auth-card">
         <h2>Login</h2>
         {msg && <span className="error-message alert">{msg}</span>}

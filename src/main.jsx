@@ -20,23 +20,21 @@ import { initGA } from "./analytics/analytics.js";
 initGA(); // panggil google analytics sekali
 
 createRoot(document.getElementById("root")).render(
-  <UserProvider>
-    <BrowserRouter>
-      <Analytics />
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route element={<MainLayout />}>
-          <Route element={<ProtectedRoute />}>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/products/:id" element={<DetailProductPage />} />
-            <Route path="/products/lists" element={<ProductListPage />} />
-            <Route path="/products/edit/:id" element={<EditProductPage />} />
-            <Route path="/products/create" element={<CreateProductPage />} />
-          </Route>
+  <BrowserRouter>
+    <Analytics />
+    <Routes>
+      <Route path="/login" element={<Login />} />
+      <Route path="/register" element={<Register />} />
+      <Route element={<MainLayout />}>
+        <Route element={<ProtectedRoute />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/products/:id" element={<DetailProductPage />} />
+          <Route path="/products/lists" element={<ProductListPage />} />
+          <Route path="/products/edit/:id" element={<EditProductPage />} />
+          <Route path="/products/create" element={<CreateProductPage />} />
         </Route>
-      </Routes>
-    </BrowserRouter>
-  </UserProvider>,
+      </Route>
+    </Routes>
+  </BrowserRouter>,
 );
