@@ -24,13 +24,12 @@ export default function Login() {
       navigate("/");
     } catch (err) {
       toast.dismiss();
-      toast.error(err?.error || err?.message || "Login failed");
       setMsg(err?.error || "Login failed");
     }
   };
   return (
     <section className="auth-page">
-        <Toaster/>
+      <Toaster />
       <div className="auth-card">
         <h2>Login</h2>
         {msg && <span className="error-message alert">{msg}</span>}
