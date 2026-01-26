@@ -25,16 +25,16 @@ export default function HomePage() {
       .catch((err) =>
         toast.error(
           "Something went wrong, please try again later. Error :" + err.message,
-          { removeDelay: 5000 }
-        )
+          { removeDelay: 5000 },
+        ),
       );
     apiFetch("/products?limit=4")
       .then((data) => setNewestProducts(data))
       .catch((err) =>
         toast.error(
           "Something went wrong, please try again later. Error :" + err.message,
-          { removeDelay: 5000 }
-        )
+          { removeDelay: 5000 },
+        ),
       );
   }, []);
   return (

@@ -1,23 +1,25 @@
 import { Trash2Icon, SquarePenIcon } from "lucide-react";
 import { Link } from "react-router";
 import { formatRupiah } from "../helpers.js";
+import AdminOnly from "../middlewares/AdminOnly.jsx";
 export default function ProductCard(props) {
-  const { type, name, image, price, stock, id, handleDelete } = props;
+  const { name, image, price, stock, id, handleDelete } = props;
 
   return (
     <div className="product-card">
       <img className="product-img" src={image} alt={name} />
       <div className="product-details">
+        <h5 className="product-name">{name}</h5>
+
         <div>
-          <h5 className="product-name">{name}</h5>
           <span className="product-price">{formatRupiah(price)}</span>
+          <span className="product-stock">{stock} tersisa</span>
         </div>
-        <span className="product-stock">{stock} tersisa</span>
         <div className="product-action">
           <Link to={"/products/" + id} className="btn primary">
             Lihat detail
           </Link>
-          {type !== "client" && (
+          <AdminOnly>
             <div>
               <a
                 href="#"
@@ -30,7 +32,7 @@ export default function ProductCard(props) {
                 <SquarePenIcon />
               </Link>
             </div>
-          )}
+          </AdminOnly>
         </div>
       </div>
     </div>

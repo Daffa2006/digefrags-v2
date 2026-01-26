@@ -4,6 +4,9 @@ import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
 import { apiFetch } from "../helpers.js";
 import { useNavigate } from "react-router";
+import AdminOnly from "../middlewares/AdminOnly.jsx";
+import InputForm from "../components/InputForm.jsx";
+import { Minus, Phone, Plus } from "lucide-react";
 export default function AdminDetailProductPage() {
   const navigate = useNavigate();
   const productFields = {
@@ -13,7 +16,8 @@ export default function AdminDetailProductPage() {
     description: "",
     savedImage: "",
   };
-  const [product, setProduct] = useState(productFields); // Old data product
+  const [product, setProduct] = useState(productFields);
+  const [amount, setAmount] = useState(1);
   const { id } = useParams();
 
   async function handleDeleteProduct(e, id) {
@@ -68,15 +72,16 @@ export default function AdminDetailProductPage() {
         toast.error(
           "Something went wrong, please try again later. Error :" +
             error.message,
-          { removeDelay: 4000 }
-        )
+          { removeDelay: 4000 },
+        ),
       );
   }, []);
+
   return (
     <div className="detail-product-page">
       <Toaster />
       <img src={product.image} alt={product.image} />
-      <div className="product-detail">
+      <div className="product-main">
         <h2>{product.name}</h2>
         <div className="product-information">
           <div>
@@ -95,22 +100,68 @@ export default function AdminDetailProductPage() {
             <span>{product.featured ? "Yes" : "No"}</span>
           </div>
         </div>
+
         <div>
           <span>Description</span>
           <p>{product.description}</p>
         </div>
-        <div className="action">
-          <a
-            href="#"
-            onClick={(e) => handleDeleteProduct(e, id)}
-            className="btn delete"
+
+        <div className="product-purchase">
+          <div className="product-amount-action">
+            <button
+              type="button"
+              className="btn"
+              onClick={() => setAmount((prev) => Math.max(prev - 1, 1))}
+            >
+              <Minus />
+            </button>
+            <input
+              type="number"
+              max="9"
+              value={amount}
+              onChange={(e) => {
+                // biarkan user mengetik, simpan apa adanya
+                setAmount(e.target.value);
+              }}
+              onBlur={() => {
+                // validasi saat focus hilang
+                let val = Number(amount);
+                if (isNaN(val) || val < 1) val = 1;
+                if (val > product.stock) val = product.stock;
+                setAmount(String(val));
+              }}
+            />
+            <button
+              type="button"
+              className="btn"
+              onClick={() =>
+                setAmount((prev) => Math.min(prev + 1, product.stock))
+              }
+            >
+              <Plus />
+            </button>
+          </div>
+          <button
+            onClick={() => alert("Demo pembelian")}
+            className="btn primary"
           >
-            Delete
-          </a>
-          <Link to={"/products/edit/" + id} className="btn edit">
-            Edit
-          </Link>
+            Buy <Phone />
+          </button>
         </div>
+        <AdminOnly>
+          <div className="action">
+            <a
+              href="#"
+              onClick={(e) => handleDeleteProduct(e, id)}
+              className="btn delete"
+            >
+              Delete
+            </a>
+            <Link to={"/products/edit/" + id} className="btn edit">
+              Edit
+            </Link>
+          </div>
+        </AdminOnly>
       </div>
     </div>
   );

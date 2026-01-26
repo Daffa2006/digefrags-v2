@@ -7,6 +7,7 @@ const InputForm = (props) => {
     name,
     placeholder,
     error,
+    required = false,
   } = props;
   return (
     <div className="mb-4">
@@ -18,6 +19,7 @@ const InputForm = (props) => {
         placeholder={placeholder}
         error={error}
         value={value}
+        required={required}
       />
     </div>
   );
@@ -29,7 +31,7 @@ const Label = (props) => {
 };
 
 const Input = (props) => {
-  const { value, onChange, type, placeholder, name, error } = props;
+  const { value, onChange, type, placeholder, name, error, required } = props;
   return (
     <>
       <input
@@ -40,6 +42,7 @@ const Input = (props) => {
         type={type}
         placeholder={placeholder}
         value={value}
+        required={required}
       />
       <span className="error-message">{error}</span>
     </>

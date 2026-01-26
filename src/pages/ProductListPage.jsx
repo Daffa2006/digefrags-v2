@@ -6,6 +6,7 @@ import { Link } from "react-router";
 import Swal from "sweetalert2";
 import toast, { Toaster } from "react-hot-toast";
 import debounce from "lodash.debounce";
+import AdminOnly from "../middlewares/AdminOnly.jsx";
 
 export default function ManageProducts() {
   const [products, setProducts] = useState([]);
@@ -44,7 +45,7 @@ export default function ManageProducts() {
           .finally(() => {
             // frontend delete (update UI)
             const updatedProducts = products.filter(
-              (product) => product._id !== id
+              (product) => product._id !== id,
             );
             setProducts(updatedProducts);
           });
@@ -64,7 +65,7 @@ export default function ManageProducts() {
             setIsLoading(false);
           });
       }, 500),
-    []
+    [],
   );
 
   useEffect(() => {
@@ -89,9 +90,11 @@ export default function ManageProducts() {
       <div className="products-list-header">
         <div>
           <h2>List Products</h2>
-          <Link to="/products/create" className="btn primary">
-            Create new products
-          </Link>
+          <AdminOnly>
+            <Link to="/products/create" className="btn primary">
+              Create new products
+            </Link>
+          </AdminOnly>
         </div>
 
         <InputForm

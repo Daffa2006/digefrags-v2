@@ -2,11 +2,13 @@ import { useState } from "react";
 import { Link } from "react-router";
 import digefragsLogo from "../assets/digefrags-logo-ai-generated-bg-removed.png";
 import { Menu, X, CircleUserRound } from "lucide-react";
-
+import AdminOnly from "../middlewares/AdminOnly";
+import { useContext } from "react";
+import { UserContext } from "../contexts/UserContext";
 export default function Navbar() {
+  const { me, loading } = useContext(UserContext);
   const [isOpen, setIsOpen] = useState(false);
   const toggleMenu = () => setIsOpen(!isOpen);
-
   return (
     <header>
       <div>
@@ -26,20 +28,30 @@ export default function Navbar() {
           >
             List product
           </Link>
-          <Link
-            to="/products/create"
-            className="header-link"
-            onClick={() => setIsOpen(false)}
-          >
-            Create product
-          </Link>
+          <AdminOnly>
+            <Link
+              to="/products/create"
+              className="header-link"
+              onClick={() => setIsOpen(false)}
+            >
+              Create product
+            </Link>
+          </AdminOnly>
 
           {/* User profile di mobile */}
           <div className="mobile-user-profile">
             <CircleUserRound className="CircleUserRound" />
-            <div className="user-info">
-              <h4>Daffa Anaqi Farid</h4>
-              <span>(admin)</span>
+            <div className="user-profile">
+              {me ? (
+                <Link to="/profile">
+                  <h4>{me.name}</h4>
+                  <span>{me.role < 1 ? "(client)" : "(admin)"}</span>
+                </Link>
+              ) : (
+                <span style={{ color: "oklch(87.1% 0.006 286.286)" }}>
+                  Loading...
+                </span>
+              )}
             </div>
           </div>
         </nav>
@@ -47,7 +59,16 @@ export default function Navbar() {
         {/* Right side desktop */}
         <div className="header-right">
           <div className="user-profile">
-            <h4>Daffa Anaqi Farid</h4> <span>(admin)</span>
+            {me ? (
+              <Link to="/profile">
+                <h4>{me.name}</h4>
+                <span>{me.role < 1 ? "(client)" : "(admin)"}</span>
+              </Link>
+            ) : (
+              <span style={{ color: "oklch(87.1% 0.006 286.286)" }}>
+                Loading...
+              </span>
+            )}
           </div>
           <button className="hamburger" onClick={toggleMenu}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
