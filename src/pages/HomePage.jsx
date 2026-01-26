@@ -52,7 +52,7 @@ export default function HomePage() {
           {featuredProducts.map((product) => (
             <figure
               onClick={() => handleNavigateToDetailProduct(product._id)}
-              key={product.id}
+              key={product._id}
               className="bento-item"
               style={{ gridArea: product.area }}
             >
@@ -77,7 +77,6 @@ export default function HomePage() {
           {newestProducts.map((product) => {
             return (
               <ProductCard
-                type="client"
                 key={product._id}
                 name={product.name}
                 image={product.image}
