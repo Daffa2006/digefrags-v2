@@ -13,7 +13,6 @@ import MainLayout from "./layouts/Main.jsx";
 import Register from "./pages/Register.jsx";
 import Profile from "./pages/Profile.jsx";
 import ProtectedRoute from "./routes/ProtectedRoute.jsx";
-import { UserProvider } from "./contexts/UserProvider.jsx";
 import Analytics from "./analytics/Analytics.jsx";
 import { initGA } from "./analytics/analytics.js";
 

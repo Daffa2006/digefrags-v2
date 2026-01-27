@@ -1,35 +1,13 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { apiFetch } from "../helpers";
 import { Link, useNavigate } from "react-router";
 import InputForm from "../components/InputForm.jsx";
 import toast, { Toaster } from "react-hot-toast";
-import Swal from "sweetalert2";
+
 export default function Login() {
   const [form, setForm] = useState({ email: "", password: "" });
   const [msg, setMsg] = useState("");
   const navigate = useNavigate();
-  useEffect(() => {
-    Swal.fire({
-      title: "Google Analytics Report",
-      position: "top",
-      customClass: {
-        title: "swal-text-small",
-        htmlContainer: "swal-text-small",
-        confirmButton: "swal-text-small",
-      },
-      html: `
-               <p>You can view the latest website analytics report here:</p>
-               <a
-                 href="https://analytics.google.com/analytics/web/?hl=id#/a381828701p521431195/realtime/pages?params=_u..nav%3Dmaui"
-                 target="_blank"
-                 rel="noopener noreferrer"
-               >
-                 Open Google Analytics
-               </a>
-             `,
-      confirmButtonText: "Got it",
-    });
-  }, []);
   const onSubmit = async (e) => {
     e.preventDefault();
     toast.loading("Signing you in...");
