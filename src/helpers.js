@@ -6,28 +6,41 @@ export function formatRupiah(number) {
   }).format(number);
 }
 
-export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ||
-  "https://api-digefrags-v2-production.up.railway.app/api";
+export const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 export async function apiFetch(path, options = {}) {
   const token = localStorage.getItem("token");
 
-  const defaultHeaders = {
-    "Content-Type": "application/json",
-  };
+  const defaultHeaders = {};
 
   if (token) {
     defaultHeaders.Authorization = `Bearer ${token}`;
+  }
+
+  // If body is plain object -> we want JSON header
+  if (options.body && !(options.body instanceof FormData)) {
+    defaultHeaders["Content-Type"] = "application/json";
   }
 
   const config = {
     ...options,
     headers: {
       ...defaultHeaders,
-      ...options.headers,
+      ...(options.headers || {}),
     },
   };
+
+  // If options.body is a plain object and no manual body provided, stringify
+  if (
+    options.body &&
+    !(options.body instanceof FormData) &&
+    typeof options.body === "object"
+  ) {
+    config.body = JSON.stringify(options.body);
+  }
+
+  // Debug: log URL in dev
+  // console.log("apiFetch:", `${API_BASE_URL}${path}`, config);
 
   const res = await fetch(`${API_BASE_URL}${path}`, config);
 
@@ -38,7 +51,7 @@ export async function apiFetch(path, options = {}) {
     } catch {
       errorData = { message: res.statusText };
     }
-    errorData.status = res.status; // tambahkan status untuk komponen
+    errorData.status = res.status;
     throw errorData;
   }
 

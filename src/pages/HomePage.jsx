@@ -22,26 +22,6 @@ export default function HomePage() {
           area: `area${index + 1}`, // area1, area2, area3, ...
         }));
         setFeaturedProducts(dataWithArea);
-
-        Swal.fire({
-          title: "Google Analytics Report",
-          position: "top",
-          customClass: {
-            htmlContainer: "swal-text-small",
-            confirmButton: "swal-text-small",
-          },
-          html: `
-              <p>You can view the latest website analytics report here:</p>
-              <a
-                href="https://analytics.google.com/analytics/web/?hl=id#/a381828701p521431195/realtime/pages?params=_u..nav%3Dmaui"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                Open Google Analytics
-              </a>
-            `,
-          confirmButtonText: "Got it",
-        });
       })
       .catch((err) =>
         toast.error(
