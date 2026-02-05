@@ -1,5 +1,5 @@
 function getUserFromToken() {
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem("token_digefrags_tp2");
   if (!token) return null;
 
   const payload = JSON.parse(atob(token.split(".")[1]));
