@@ -16,7 +16,7 @@ export default function Login() {
         method: "POST",
         body: JSON.stringify(form),
       });
-      localStorage.setItem("token", data.token);
+      localStorage.setItem("token_digefrags_tp2", data.token);
 
       toast.dismiss();
       toast.success("Successfully logged in!");
