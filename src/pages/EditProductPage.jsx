@@ -32,8 +32,8 @@ export default function EditProductPage() {
         toast.error(
           "Something went wrong, please try again later. Error :" +
             error.message,
-          { removeDelay: 4000 }
-        )
+          { removeDelay: 4000 },
+        ),
       );
   }, []);
 
@@ -133,9 +133,6 @@ export default function EditProductPage() {
           checked={form.featured}
         />
         <div className="form-product-page-action">
-          <button type="reset" className="btn secondary">
-            Reset form
-          </button>
           <button type="submit" className="btn primary">
             Edit product
           </button>

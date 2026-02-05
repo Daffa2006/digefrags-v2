@@ -31,6 +31,7 @@ export default function CreateProductPage() {
       confirmButtonText: "Yes,reset",
     }).then((result) => {
       if (result.isConfirmed) {
+        setForm(productFields);
         formRef.current.reset();
       }
     });
